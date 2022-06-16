@@ -17,7 +17,7 @@ import pandas as pd
 import openpyxl as O
 import time
 
-def main():
+def main(USERNAME, PASSWORD):
     #Initialize the path and webdriver
     PATH = "C:\Program Files (x86)\chromedriver.exe"
     driver = webdriver.Chrome(executable_path = PATH)
@@ -43,12 +43,14 @@ def main():
     #Enter username/email
     username.clear()
     time.sleep(1)
-    username.send_keys('USERNAME/EMAIL')
+    USERNAME = str(USERNAME)
+    username.send_keys(USERNAME)
 
     #Repeat with password
     password = driver.find_element(By.XPATH, "//input[@placeholder='Password (case sensitive)']")
     password.clear()
-    password.send_keys('PASSWORD')
+    PASSWORD = str(PASSWORD)
+    password.send_keys(PASSWORD)
 
     #Confirm Login
     login = driver.find_element(By.XPATH, "//button[@class='btn btn-primary btn-submit ng-isolate-scope']")
@@ -74,28 +76,6 @@ def main():
 
     league.click()
     site = driver.page_source
-
-    # #IF Email Button is present locate it --> (LM has not reactivated the league)
-    # try:
-    #     email = WebDriverWait(driver, 10).until(
-    #         EC.presence_of_element_located((By.XPATH, "//button[@class='Button Button--lg Button--default Button--custom']"))
-    #     )
-    # except:
-    #     pass
-    # if(email):
-    #     email.click()
-    # time.sleep(1)
-
-    # #Confirmation of sending email
-    # try:
-    #     confirm = driver.find_element(By.XPATH, "//button[@aria-label='Send Mail']")
-    #     confirm.click()
-    #     time.sleep(1)
-    #     confirm = driver.find_element(By.XPATH, "//button[@class='Button Button--alt w-90']")
-    #     confirm.click()
-    #     print('Successfully Sent Reminder')
-    # except:
-    #     pass
 
     #Run the email reminder
     remind(driver)
@@ -147,8 +127,9 @@ def main():
     driver.close()
 
 #Rerun bot until LM becomes annoyed enough to reactivate league
+
 while(True):
-    main()
+    main(USERNAME, PASSWORD)
 
 #End Script
 
